@@ -1,121 +1,139 @@
+
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import {
+  LayoutDashboard,
+  Activity,
+  History,
+  Shield,
+  Bell,
+  ChevronRight,
+} from 'lucide-react'
+
+import Dashboard from './pages/Dashboard'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activePage, setActivePage] = useState('Dashboard')
+
+  const navigation = [
+    { name: 'Dashboard', icon: LayoutDashboard },
+    { name: 'Live Monitoring', icon: Activity },
+    { name: 'Alert History', icon: History },
+  ]
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app-container">
 
-      <div className="ticks"></div>
+      {/* Sidebar */}
+      <aside className="sidebar">
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <div className="brand">
+          <div className="brand-icon">
+            <Shield size={23} />
+          </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+          <div>
+            <h2>HAZARD GUARD</h2>
+            <p>Environmental Safety</p>
+          </div>
+        </div>
+
+        <div className="sidebar-section">
+          <p className="section-label">MAIN MENU</p>
+
+          <nav>
+            {navigation.map((item) => {
+              const Icon = item.icon
+
+              return (
+                <button
+                  key={item.name}
+                  className={`nav-item ${
+                    activePage === item.name ? 'active' : ''
+                  }`}
+                  onClick={() => setActivePage(item.name)}
+                >
+                  <Icon size={19} />
+                  <span>{item.name}</span>
+
+                  {activePage === item.name && (
+                    <ChevronRight size={16} className="nav-arrow" />
+                  )}
+                </button>
+              )
+            })}
+          </nav>
+        </div>
+
+        {/* Sidebar Footer */}
+        <div className="sidebar-bottom">
+          <div className="system-indicator">
+            <span className="status-dot"></span>
+
+            <div>
+              <p>System Interface</p>
+              <span>Development Mode</span>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+      {/* Main Content */}
+      <main className="main-content">
+
+        {/* Header */}
+        <header className="topbar">
+
+          <div className="page-heading">
+            <p>HAZARD GUARD / OVERVIEW</p>
+            <h1>{activePage}</h1>
+          </div>
+
+          <div className="topbar-right">
+
+            <div className="environment-tag">
+              <span className="status-dot"></span>
+              Prototype
+            </div>
+
+            <button
+              className="notification-button"
+              onClick={() => setActivePage('Alert History')}
+              title="View Alert History"
+              aria-label="View Alert History"
+            >
+              <Bell size={19} />
+            </button>
+
+          </div>
+        </header>
+
+        {/* Page Rendering */}
+        {activePage === 'Dashboard' && <Dashboard />}
+
+        {activePage === 'Live Monitoring' && (
+          <div className="placeholder-page">
+            <Activity size={32} />
+            <h2>Live Monitoring</h2>
+            <p>
+              Real-time sensor readings and graphs will appear here.
+            </p>
+          </div>
+        )}
+
+        {activePage === 'Alert History' && (
+          <div className="placeholder-page">
+            <History size={32} />
+            <h2>Alert History</h2>
+            <p>
+              Active and previous safety alerts will appear here.
+            </p>
+          </div>
+        )}
+
+      </main>
+    </div>
   )
 }
 
