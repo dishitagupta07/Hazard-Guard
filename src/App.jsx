@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import {
   LayoutDashboard,
@@ -10,6 +9,8 @@ import {
 } from 'lucide-react'
 
 import Dashboard from './pages/Dashboard'
+import LiveMonitoring from './pages/LiveMonitoring'
+import AlertHistory from './pages/AlertHistory'
 import './App.css'
 
 function App() {
@@ -23,10 +24,7 @@ function App() {
 
   return (
     <div className="app-container">
-
-      {/* Sidebar */}
       <aside className="sidebar">
-
         <div className="brand">
           <div className="brand-icon">
             <Shield size={23} />
@@ -65,7 +63,6 @@ function App() {
           </nav>
         </div>
 
-        {/* Sidebar Footer */}
         <div className="sidebar-bottom">
           <div className="system-indicator">
             <span className="status-dot"></span>
@@ -76,22 +73,16 @@ function App() {
             </div>
           </div>
         </div>
-
       </aside>
 
-      {/* Main Content */}
       <main className="main-content">
-
-        {/* Header */}
         <header className="topbar">
-
           <div className="page-heading">
             <p>HAZARD GUARD / OVERVIEW</p>
             <h1>{activePage}</h1>
           </div>
 
           <div className="topbar-right">
-
             <div className="environment-tag">
               <span className="status-dot"></span>
               Prototype
@@ -105,33 +96,14 @@ function App() {
             >
               <Bell size={19} />
             </button>
-
           </div>
         </header>
 
-        {/* Page Rendering */}
         {activePage === 'Dashboard' && <Dashboard />}
 
-        {activePage === 'Live Monitoring' && (
-          <div className="placeholder-page">
-            <Activity size={32} />
-            <h2>Live Monitoring</h2>
-            <p>
-              Real-time sensor readings and graphs will appear here.
-            </p>
-          </div>
-        )}
+        {activePage === 'Live Monitoring' && <LiveMonitoring />}
 
-        {activePage === 'Alert History' && (
-          <div className="placeholder-page">
-            <History size={32} />
-            <h2>Alert History</h2>
-            <p>
-              Active and previous safety alerts will appear here.
-            </p>
-          </div>
-        )}
-
+        {activePage === 'Alert History' && <AlertHistory />}
       </main>
     </div>
   )
